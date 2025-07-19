@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<body>
+    <h2>Search</h2>
+    <form method="get">
+    <label for="entity">Search in:</label>
+    <select name="entity" id="entity">
+      {% for option in ['Teachers', 'Students', 'Staff'] %}
+      <option value="{{ option }}" {% if request.args.get('entity') == option %}selected{% endif %}>{{ option }}</option>
+      {% endfor %}
+    </select>
+    <br>
+    <label for="id">ID:</label>
+    <input type="text" name="id" id="id" value="{{ request.args.get('id', '') }}">
+    <br>
+    <label for="surname">Surname:</label>
+    <input type="text" name="surname" id="surname" value="{{ request.args.get('surname', '') }}">
+    <br>
+    <input type="submit" value="Search">
+  </form>
+
+  {% if results %}
+    <h3>Results from {{ entity }}:</h3>
+    <table border="1">
+      <thead>
+        <tr>
+          {% for col in col_names %}
+          <th>{{ col }}</th>
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in results %}
+        <tr>
+          {% for item in row %}
+          <td>{{ item }}</td>
+          {% endfor %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% elif request.args %}
+    <p>No results found.</p>
+  {% endif %}
+
+{% endblock %}
