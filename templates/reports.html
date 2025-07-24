@@ -5,40 +5,56 @@
 <body>
     <h2>Reports</h2>
 
-    <h4>This section allows you to select from a number of pre-prepared reports.</h4>
+    <h4>This area allows you to select from a number of pre-prepared reports.</h4>
     
+<body>
+    <form method="get" action="/view_report">
+    <label for="selection">Report:</label>
+    <select name="selection" id="selection">
+      {% for option in ['Students without Courses', 'Students by Lecturer', 'Courses by Department', 'Students by Lecturer', 'Student Overview'] %}
+      <option value="{{ option }}" {% if request.args.get('selection') == option %}selected{% endif %}>{{ option }}</option>
+      {% endfor %}
+    </select>
+    <br>
+    <input type="submit" value="Continue">
+  </form>
+
     <table>
       <tr>
         <th></th>
         <th></th>
-        <th></th>
       </tr>
       
       <tr>
-        <td>Unregistered Students (this semester)</td>
-        <td>Generates a report of Students with no courses registered for this semester</td>
-        <td>View</td>
+        <td>High Performing Students</td>
+        <td>Lists all students with an average grade above 70%</td>
       </tr>
 
       <tr>
-        <td>Report 2</td>
-        <td></td>
-        <td>View</td>
+        <td>Courses by department</td>
+        <td>Lists courses taught by lecturers in a given department</td>
       </tr>
 
       <tr>
-        <td><b></b></td>
-        <td></td>
-        <td></td>
+        <td>Students assigned to course</td>
+        <td>Lists students enrolled in given course taught by given lecturer</td>
       </tr>
 
       <tr>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td>Faculty Advisor Contact Information</td>
+        <td>Returns the contact information of for the faculty advisor of specified student</td>
       </tr>
 
-      
+      <tr>
+        <td>Research Specialism</td>
+        <td>Returns a list of lecturers with expertise in a given research area</td>
+      </tr>      
+
+      <tr>
+        <td>List Students</td>
+        <td>Returns a list of students advised by a given lecturer</td>
+      </tr>  
+
     </table>
 
 

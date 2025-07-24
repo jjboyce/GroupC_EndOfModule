@@ -3,7 +3,31 @@
 {% block content %}
 
 <body>
-    <h2>View Report: (NAME OF REPORT)</h2>
+    <h2>View Report: {{ selection }}</h2>
+
+  {% if results %}
+    <table border="1">
+      <thead>
+        <tr>
+          {% for col in col_names %}
+          <th>{{ col }}</th>
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in results %}
+        <tr>
+          {% for item in row %}
+          <td>{{ item }}</td>
+          {% endfor %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% elif request.args %}
+    <p>No results found.</p>
+  {% endif %}
+
 
 </body>
 
