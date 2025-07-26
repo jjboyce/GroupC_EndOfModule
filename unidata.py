@@ -120,10 +120,6 @@ def viewreport():
     params = []
     argument = [request.args.get('argument')]
 
-
-### this block defines the parameters being passed from the form
-
-
 ### logic to choose correct SQL dependent on entity being queried ## 
 
     if selection == 'High Performing Students':
@@ -141,10 +137,9 @@ def viewreport():
         from registered_courses rc 
         inner join courses c on rc.course_code = c.course_code
         where c.department_name = %s
-        group by rc.lecturer_id, rc.course_code, c.course_name; 
+        group by rc.lecturer_id, rc.course_code, c.course_name
         """
         params = argument
-        print(argument)
 
 
     elif selection == 'Students by Lecturer':
@@ -155,8 +150,10 @@ def viewreport():
         inner join students s on s.student_id = rc.student_id
         where 1=1
         """
-        if argument:
-            query += " AND l.last_name = %s OR l.lecturer_id = %s"
+        print(argument)
+        if not argument == ['']:
+            print("I think there's an argument")
+            query += " AND (l.last_name = %s OR l.lecturer_id = %s)"
             params = (argument[0], argument[0])
             
 
@@ -166,8 +163,8 @@ def viewreport():
         inner join lecturers l on s.advisor = l.lecturer_id
         where 1=1
         """
-        if argument:
-            query += " AND s.last_name = %s OR s.student_id = %s"
+        if not argument == ['']:
+            query += " AND (s.last_name = %s OR s.student_id = %s)"
             params = (argument[0], argument[0])
             
 
@@ -176,7 +173,7 @@ def viewreport():
         select l.first_name, l.last_name, l.research_area from lecturers l 
         where 1+1
         """
-        if argument:
+        if not argument == ['']:
             query += " AND research_area = %s"
             params = argument
 
