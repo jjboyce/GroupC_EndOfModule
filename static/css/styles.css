@@ -39,6 +39,7 @@ button {
 
 div {
   padding: 1%;
+  width: auto;
 }
 
 label {font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;}
@@ -101,12 +102,12 @@ li:hover {
 
 
 label {
-  width: 75px; /* fixed width for alignment */
+  width: 250px; /* fixed width for alignment */
   margin-right: 5px;
   text-align: left;
 }
 
-input[name="notes"] {
+input {
   width: 55%;
 }
 
@@ -141,3 +142,5 @@ select {
   background-position: right 10px center;
   background-size: 12px;
 }
+
+

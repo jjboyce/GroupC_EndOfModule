@@ -11,13 +11,55 @@
     <form method="get" action="/view_report">
     <label for="selection">Report:</label>
     <select name="selection" id="selection">
-      {% for option in ['Students without Courses', 'Students by Lecturer', 'Courses by Department', 'Students by Lecturer', 'Student Overview'] %}
+      {% for option in ['High Performing Students', 'Courses by Department', 'Students by Lecturer', 'Student Advisors', 'Lecturer Expertise'] %}
       <option value="{{ option }}" {% if request.args.get('selection') == option %}selected{% endif %}>{{ option }}</option>
       {% endfor %}
     </select>
     <br>
+
+    <div id="argumentContainer">
+    <label for="argument" id="dynamicLabel">Argument:</label>
+    <input type="text" name="argument" id="argument" value="{{ request.args.get('argument', '') }}">
+    </div>
+    <br>
+
     <input type="submit" value="Continue">
   </form>
+
+  <script>
+    const selection = document.getElementById('selection');
+    const dynamicLabel = document.getElementById('dynamicLabel');
+    const argumentContainer = document.getElementById('argumentContainer');
+
+    const labelMap = {
+      'High Performing Students': 'Student Surname or ID:',
+      'Courses by Department': 'Department:',
+      'Students by Lecturer': 'Lecturer Surname or ID:',
+      'Student Advisors': 'Student Surname or ID:',
+      'Lecturer Expertise': 'Research Area:'
+    }
+
+    const noArgumentReports = ['High Performing Students']
+
+function updateArgumentField() {
+      const selectedOption = selection.value;
+
+      // Hide field if the selected option doesn't require an argument
+      if (noArgumentReports.includes(selectedOption)) {
+        argumentContainer.style.display = 'none';
+      } else {
+        argumentContainer.style.display = 'block';
+        dynamicLabel.textContent = labelMap[selectedOption] || 'Argument:';
+      }
+    }
+
+    // Initialise field visibility and label on page load
+    updateArgumentField();
+
+    // Update when dropdown changes
+    selection.addEventListener('change', updateArgumentField);
+
+  </script>
 
     <table>
       <tr>
@@ -27,32 +69,27 @@
       
       <tr>
         <td>High Performing Students</td>
-        <td>Lists all students with an average grade above 70%</td>
+        <td>List all Students with an average grade above 70%</td>
       </tr>
 
       <tr>
         <td>Courses by department</td>
-        <td>Lists courses taught by lecturers in a given department</td>
+        <td>List all courses taught by lectures in a specific department</td>
       </tr>
 
       <tr>
-        <td>Students assigned to course</td>
-        <td>Lists students enrolled in given course taught by given lecturer</td>
+        <td>Students by Lecturer</td>
+        <td>Find all students enroll in a specific course taught by a particular lecture</td>
       </tr>
 
       <tr>
-        <td>Faculty Advisor Contact Information</td>
-        <td>Returns the contact information of for the faculty advisor of specified student</td>
-      </tr>
-
-      <tr>
-        <td>Research Specialism</td>
-        <td>Returns a list of lecturers with expertise in a given research area</td>
+        <td>Student Advisor</td>
+        <td>Retrieve the contact information for the faculty advisor of a specific student</td>
       </tr>      
 
       <tr>
-        <td>List Students</td>
-        <td>Returns a list of students advised by a given lecturer</td>
+        <td>Lecturer Expertise</td>
+        <td>Search for lectuers with expertiese in a particular research area</td>
       </tr>  
 
     </table>

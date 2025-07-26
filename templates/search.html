@@ -8,7 +8,7 @@
     <form method="get">
     <label for="entity">Search in:</label>
     <select name="entity" id="entity">
-      {% for option in ['Teachers', 'Students', 'Staff'] %}
+      {% for option in ['Lecturers', 'Students', 'Non Academic Staff'] %}
       <option value="{{ option }}" {% if request.args.get('entity') == option %}selected{% endif %}>{{ option }}</option>
       {% endfor %}
     </select>
