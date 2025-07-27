@@ -1,16 +1,31 @@
-{% extends "base.html" %}
+<head>
+    <meta charset="UTF-8">
+    <title>UniRecords</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
 
 {% block content %}
+
+<h1 id="homepage">UniRecords</h1>
+
+<body id="homepage">
 <br>
+    To find a Teacher, Student or Staff by Surname or ID use SEARCH
+    <br>
+    <br>
+    Select from a number of pre-prepared reports using REPORTS
+    <br>
+    <br>
+
+
+<div class="button-container">
+    <a href="{{ url_for('search') }}" class="option-btn">Staff Search</a>
+    <a href="{{ url_for('student_search') }}" class="option-btn">Student Search</a>
+    <a href="{{ url_for('reports') }}" class="option-btn">Reports</a>
+
+  </div>
 <br>
-<h3>Welcome to UniRecords</h3>
-<br>
-<br>
-<br>
-Use <b>People Search</b> to find a Teacher, Student or Staff by <i>Surname</i> or <i>ID</i>
-<br>
-<br>
-<br>
-Use <b>Reports</b> to select from a number of pre-prepared reports
+
+</body>
 
 {% endblock %}

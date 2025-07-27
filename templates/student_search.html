@@ -3,18 +3,11 @@
 {% block content %}
 
 <body>
-    <h2>Staff Search</h2>
-    <h4>Find Lecturers or Non-Academic Staff here</h4>
+    <h2>Student Search</h2>
+    <h4>Find Student Details here</h4>
     <form method="get">
-    <label for="entity">Search in:</label>
-    <select name="entity" id="entity">
-      {% for option in ['Lecturers', 'Non Academic Staff'] %}
-      <option value="{{ option }}" {% if request.args.get('entity') == option %}selected{% endif %}>{{ option }}</option>
-      {% endfor %}
-    </select>
-    <br>
     <label for="id">ID:</label>
-    <input type="text" name="id" id="id" value="{{ request.args.get('id', '') }}">
+    <input type="text" name="student_ID" id="student_ID" value="{{ request.args.get('student_ID', '') }}">
     <br>
     <label for="surname">Surname:</label>
     <input type="text" name="surname" id="surname" value="{{ request.args.get('surname', '') }}">
@@ -23,7 +16,7 @@
   </form>
 
   {% if results %}
-    <h3>Results from {{ entity }}:</h3>
+    <h3>Search Results:</h3>
     <table border="1">
       <thead>
         <tr>
@@ -36,7 +29,11 @@
         {% for row in results %}
         <tr>
           {% for item in row %}
-          <td>{{ item }}</td>
+            {% if loop.first %}
+          <td><a href="{{ url_for('viewstudent', student_id=item) }}">{{ item }}</a></td>
+            {% else %}
+              <td>{{ item }}</td>
+            {% endif %}
           {% endfor %}
         </tr>
         {% endfor %}
