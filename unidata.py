@@ -169,7 +169,7 @@ def viewreport():
 
     elif selection == 'Student Advisors':
         query = """
-        select l.first_name as advisor_first_name, l.last_name as advisor_last_name from students s
+        select s.first_name, s.last_name, CONCAT(l.first_name, ' ', l.last_name) as Advisor from students s
         inner join lecturers l on s.advisor = l.lecturer_id
         where 1=1
         """
