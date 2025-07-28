@@ -144,9 +144,10 @@ def viewreport():
         
     elif selection == 'Courses by Department':
         query = """
-        select rc.lecturer_id, rc.course_code, c.course_name, c.department_name
+        select rc.course_code, c.course_name, c.department_name, CONCAT(l.first_name, ' ', l.last_name) as Lecturer
         from registered_courses rc 
         inner join courses c on rc.course_code = c.course_code
+        inner join lecturers l on l.lecturer_id = rc.lecturer_id
         where c.department_name = %s
         group by rc.lecturer_id, rc.course_code, c.course_name
         """
