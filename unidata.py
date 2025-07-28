@@ -223,16 +223,21 @@ def student_search():
 ### logic to append correct SQL dependent on field being queried ## 
 
     if student_id:
-        query += " AND student_id = %s"
+        query += " AND student_ID = %s"
         params.append(student_id)
 
     if surname:
-        query += " AND last_name LIKE %s"
+        query += " AND last_name like %s"
         params.append(surname)
 
-    elif not student_id and not surname:
-        return render_template(STUDENT_SEARCH_TEMPLATE,
-                               results=None)
+    #if student_id is [''] and surname is ['']:
+        #return render_template(STUDENT_SEARCH_TEMPLATE,
+                               #surname=surname,
+                               #student_id=student_id,
+                               #col_names=col_names,
+                               #request=request,
+                               #results=results)
+    
             
     ## connects to the database and carries out the SQL Query ##
 
