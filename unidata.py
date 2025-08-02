@@ -229,14 +229,6 @@ def student_search():
         query += " AND name like %s"
         params.append(surname)
 
-    #if student_id is [''] and surname is ['']:
-        #return render_template(STUDENT_SEARCH_TEMPLATE,
-                               #surname=surname,
-                               #student_id=student_id,
-                               #col_names=col_names,
-                               #request=request,
-                               #results=results)
-    
             
     ## connects to the database and carries out the SQL Query ##
 
@@ -280,7 +272,7 @@ def viewstudent():
     query += " AND s.student_id = %s"
     params.append(student_id)
     
-    print(f"THE QUERY IS: {query} ")
+
     ## carries out the SQL Query ##
     conn = get_connection()
     cursor = conn.cursor()
