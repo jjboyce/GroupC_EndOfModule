@@ -8,7 +8,7 @@ DB_CONFIG = {
     'user': 'test_account',
     'password': 'bluemacbook',
     'host': 'localhost',
-    'database': 'endofmod'
+    'database': 'endofmodtwo'
 }
 
 ## Template definitions
@@ -69,7 +69,7 @@ def search():
             query += " AND Lecturer_id = %s"
             params.append(id)
         if surname:
-            query += " AND last_Name LIKE %s"
+            query += " AND name LIKE %s"
             params.append(f"%{surname}%")
             
     elif entity == 'Students':
@@ -77,7 +77,7 @@ def search():
             query += " AND student_id = %s"
             params.append(id)
         if surname:
-            query += " AND last_Name LIKE %s"
+            query += " AND name LIKE %s"
             params.append(f"%{surname}%")
 
     elif entity == 'Non Academic Staff':
@@ -85,7 +85,7 @@ def search():
             query += " AND staff_id = %s"
             params.append(id)
         if surname:
-            query += " AND last_Name LIKE %s"
+            query += " AND name LIKE %s"
             params.append(f"%{surname}%")
 
     ## connects to the database and carries out the SQL Query ##
@@ -135,8 +135,7 @@ def viewreport():
 
     if selection == 'High Performing Students':
         query = """
-        
-        select rc.student_id, s.first_name, s.last_name, AVG(grade), AVG(grade) > 70 from registered_courses rc
+        select rc.student_id, s.name, AVG(grade), AVG(grade) > 70 from registered_courses rc
         inner join students s on s.student_id = rc.student_id
         group by rc.student_id
         having AVG(rc.grade) > 70;
@@ -144,47 +143,47 @@ def viewreport():
         
     elif selection == 'Courses by Department':
         query = """
-        select rc.course_code, c.course_name, c.department_name, CONCAT(l.first_name, ' ', l.last_name) as Lecturer
+        select rc.course_code, c.name, c.department, l.name as Lecturer
         from registered_courses rc 
         inner join courses c on rc.course_code = c.course_code
         inner join lecturers l on l.lecturer_id = rc.lecturer_id
-        where c.department_name = %s
-        group by rc.lecturer_id, rc.course_code, c.course_name
+        where c.department = %s
+        group by rc.lecturer_id, rc.course_code, c.name
         """
         params = argument
 
 
     elif selection == 'Students by Lecturer':
         query = """
-        select s.first_name as student_first_name, s.last_name as student_last_name, c.course_name, l.first_name as Lecturer_first_name, l.last_name as lecturer_last_name from registered_courses rc
+        select s.name as studentname, c.name, l.name as Lecturer from registered_courses rc
         inner join courses c on rc.course_code = c.course_code
         inner join lecturers l on l.lecturer_id = rc.lecturer_id
         inner join students s on s.student_id = rc.student_id
         where 1=1
         """
         if not argument == ['']:
-            query += " AND (l.last_name = %s OR l.lecturer_id = %s)"
+            query += " AND (l.name = %s OR l.lecturer_id = %s)"
             params = (argument[0], argument[0])
             
 
     elif selection == 'Student Advisors':
         query = """
-        select s.first_name, s.last_name, CONCAT(l.first_name, ' ', l.last_name) as Advisor from students s
+        select s.name, l.name as Advisor from students s
         inner join lecturers l on s.advisor = l.lecturer_id
         where 1=1
         """
         if not argument == ['']:
-            query += " AND (s.last_name = %s OR s.student_id = %s)"
+            query += " AND (s.name = %s OR s.student_id = %s)"
             params = (argument[0], argument[0])
             
 
     elif selection == 'Lecturer Expertise':
         query = """
-        select l.first_name, l.last_name, l.research_area from lecturers l 
+        select l.name, l.areas_of_expertise from lecturers l 
         where 1+1
         """
         if not argument == ['']:
-            query += " AND research_area = %s"
+            query += " AND areas_of_expertise = %s"
             params = argument
 
     ## carries out the SQL Query ##
@@ -211,7 +210,7 @@ def student_search():
     surname = request.args.get('surname')
 
     query = """
-    select student_ID, first_name, last_name from students
+    select student_ID, name from students
     where 1+1
     """
     params = []
@@ -227,7 +226,7 @@ def student_search():
         params.append(student_id)
 
     if surname:
-        query += " AND last_name like %s"
+        query += " AND name like %s"
         params.append(surname)
 
     #if student_id is [''] and surname is ['']:
@@ -273,7 +272,7 @@ def viewstudent():
 ### logic to map create SQL Query for additional Student Data ##
 
     query = """
-            select s.student_id, s.first_name, s.last_name, s.program_enroll_in, CONCAT(l.first_name, ' ', l.last_name) as Lecturer from students s
+            select s.student_id, s.name, s.program_enroll_in, l.name as Lecturer from students s
             inner join Lecturers l on s.advisor = l.Lecturer_id
             where 1=1
             """
